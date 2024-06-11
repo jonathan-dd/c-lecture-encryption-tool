@@ -1,0 +1,5 @@
+{
+    "code-runner.executorMap": {
+      "c": "gcc $fileName -o cryptor.exe && copy cryptor.exe %USERPROFILE%\\bin"
+    }
+  }
