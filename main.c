@@ -14,7 +14,7 @@ BOOL isAdmin();
 void encrypt(char* filePath, char* encryptionType);
 void decrypt(char* filePath, char* encryptionType);
 unsigned char* readFileAsBinary(const char *filePath, size_t *fileSize);
-void writeFileFromBinary(unsigned char* fileData, size_t* fileSize, char* filePath);
+void writeFileFromBinary(unsigned char* fileData, size_t* fileSize, char* filePath, char encryptOrDecrypt);
 char* getAbsolutePath(const char* relativPath);
 void printHelp();
 
