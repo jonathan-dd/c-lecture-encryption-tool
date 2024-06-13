@@ -17,10 +17,11 @@ unsigned char* readFileAsBinary(const char *filePath, size_t *fileSize);
 void writeFileFromBinary(unsigned char* fileData, size_t* fileSize, char* filePath, char encryptOrDecrypt);
 char* getAbsolutePath(const char* relativPath);
 void printHelp();
+char* editFilePath(char* filePath, char encryptOrDecrypt);
 
 int main(int argc, char *argv[]){
 
-    // We check for admin rights to avoid needing a verification or password system
+    // We check for admin rights to make sure not anyone can just encrypt files on your system
     if(!isAdmin()){
         printf("This application requires adminisrative privileges.\nPlease use a terminal with admin privileges.");
         return 1;
@@ -89,28 +90,42 @@ BOOL isAdmin() {
 void encrypt(char* filePath, char* encryptionType){
     size_t fileSize;
     unsigned char* fileData = readFileAsBinary(filePath, &fileSize);
-
+    printf("Encryption process started");
+    
     //Encryption code here
 
-    // File path has to me changed to 
     writeFileFromBinary(fileData, &fileSize, filePath, 'e');
     free(fileData);
+
+    // Delete unencrypted file
+    if (remove(filePath) == 0){
+        printf("Original file removed");
+    }else{
+        printf("Original file could not be deleted. Pleas delete the original file manualy\n");
+    }
 }
 
 // Decrypt a file
 void decrypt(char* filePath, char* encryptionType){
     size_t fileSize;
     unsigned char* fileData = readFileAsBinary(filePath, &fileSize);
+    printf("Decryption process started");
 
     //Decryption code here
 
     writeFileFromBinary(fileData, &fileSize, filePath, 'd');
     free(fileData);
+
+    // Delete encrypted file
+    if (remove(filePath) == 0){
+        printf("Encrypted file removed");
+    }else{
+        printf("Encrypted file could not be deleted. Pleas delete the encrypted file manualy\n");
+    }
 }
 
 // Reads a file and returns it as binary
 unsigned char* readFileAsBinary(const char* filePath, size_t *fileSize){
-    printf("File Path: %s\n", filePath);
 
     // Open file as binary
     FILE* file = fopen(filePath, "rb");
@@ -147,15 +162,10 @@ unsigned char* readFileAsBinary(const char* filePath, size_t *fileSize){
     return buffer;
 }
 
-void writeFileFromBinary(unsigned char* fileData, size_t *fileSize, char* writeFilePath, char encryptOrDecrypt){
+void writeFileFromBinary(unsigned char* fileData, size_t *fileSize, char* filePath, char encryptOrDecrypt){ 
 
-    /*Add code to change writeFilePath depending on if it is a encrypt or decrypt operation
-      Functionality should behave like this:
-        First check if File given file is allready encrypted or not (can not encrypt an already encrypted file)
-      Encrypt: "file/path/file.txt" -> "file/path/file.txt.enc"
-      Decrypt: "file/path/file.txt.enc" -> "file/path/file.txt"
-      
-      Maybe create some helper functions like getFilenameFromPath()                                             */ 
+    // Change filepath depending on encryption or decryption opperation
+    char* writeFilePath = editFilePath(filePath, encryptOrDecrypt);
 
     FILE* file = fopen(writeFilePath, "wb");
     if (file == NULL) {
@@ -171,6 +181,7 @@ void writeFileFromBinary(unsigned char* fileData, size_t *fileSize, char* writeF
     }
     
     fclose(file);
+    free(writeFilePath);
 }
 
 // converts a relative path to an absolute path
@@ -190,6 +201,58 @@ char* getAbsolutePath(const char* relativePath){
 
     // Return the absolute path if everything went well
     return absolutePath;
+}
+
+char* editFilePath(char* filePath, char encryptOrDecrypt){
+
+    size_t length = strlen(filePath);
+    char* extension = &filePath[length - 4];
+    char* editedFilePath;
+    
+    switch (encryptOrDecrypt)
+    {
+    case 'e':
+        if (strcmp(extension, ".enc") == 0){
+            printf("The File you are trying to encrypt is allready encrypted");
+            exit(EXIT_FAILURE);
+        }
+
+        editedFilePath = (char *)malloc(length + 5);
+        if(editedFilePath == NULL){
+            perror("Memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
+
+        strcpy(editedFilePath, filePath);
+        strcat(editedFilePath, ".enc");
+        break;
+    case 'd':
+        if (strcmp(extension, ".enc") != 0){
+            printf("The File you are trying to decrypt is not encrypted");
+            exit(EXIT_FAILURE);
+        }
+
+        if (length < 4){
+            perror("File path to short. Can't remove extension");
+            exit(EXIT_FAILURE);
+        }
+
+        editedFilePath = (char *)malloc(length + 1);
+        if(editedFilePath == NULL){
+            perror("Memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
+
+        strcpy(editedFilePath, filePath);
+        editedFilePath[length - 4] = '\0';
+        break;
+    default:
+        perror("Unknown parameter for writeFileFromBinary(char encryptOrDecrypt)");
+        exit(EXIT_FAILURE);
+        break;
+    }
+
+    return editedFilePath;
 }
 
 // print helo message with all possible commands
