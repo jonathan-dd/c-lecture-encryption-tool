@@ -13,6 +13,7 @@ Authors: Silas Hausdörfer, Jonathan Dechow
 BOOL isAdmin();
 void encrypt();
 void decrypt();
+void rsaencr();
 unsigned char* readFileAsBinary();
 char* getAbsolutePath(const char* relativPath);
 
@@ -136,4 +137,9 @@ char* getAbsolutePath(const char* relativePath){
 
     // Return the absolute path if everything went well
     return absolutePath;
+}
+
+void rsaencr() // muss hier was noch in die Klammer rein?
+{
+    
 }
