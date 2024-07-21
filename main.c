@@ -6,6 +6,9 @@ Authors: Silas Hausdörfer, Jonathan Dechow
 #include <stdlib.h>
 #include <windows.h>
 #include <string.h>
+#include "encryption.h"
+// #include "primegen.h"    // remove comment if needed
+
 
 #define MAX_PATH_LENGTH 260
 
