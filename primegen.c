@@ -18,7 +18,7 @@ bool is_prime(int num) {
 int generate_random_prime() {
     int numb;
     do {
-        numb = generate_random_number(2, 10000);
+        numb = generate_random_number(2, 50); //range in which the primes are generated
     } while (!is_prime(numb));
 
     return numb;

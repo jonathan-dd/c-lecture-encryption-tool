@@ -45,3 +45,16 @@ int encrRSA(int binint) //binint = number from converting binary in a int and ba
     printf("\n");
     printf("The encryption and decryption Modulus is %d", encrmod);
 }
+
+void encrCaeser(char* binaryString)
+{
+    int length = strlen(binaryString);
+    
+    for (int i = 0; i < length; i++) {
+        if (binaryString[i] == '0') {
+            binaryString[i] = '1';
+        } else if (binaryString[i] == '1') {
+            binaryString[i] = '0';
+        }
+    }
+}
