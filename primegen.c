@@ -14,32 +14,36 @@ bool is_prime(int num) {
     return true;
 }
 
+// Function to generate a random prime number within a specified range
+int generate_random_prime() {
+    int numb;
+    do {
+        numb = generate_random_number(2, 10000);
+    } while (!is_prime(numb));
+
+    return numb;
+}
 
 
-// Function to generate random primes
-void generate_random_primes(int *prime1, int *prime2) {
-    int count = 0;
-    int num;
-    while (count < 2) {
-        num = rand() % 1000 + 2; // Generate a random number between 2 and 101
-        if (is_prime(num)) {
-            if (count == 0) {
-                *prime1 = num;
-            } else {
-                *prime2 = num;
-            }
-            count++;
-        }
+
+// Function to compute the greatest common divisor (GCD) using the Euclidean algorithm
+int gcd(int a, int b) { //a = biggest coprime
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
-    if(prime1>prime2)
+    return a;
+}
+
+// Function to check if two numbers are coprime
+bool are_coprime(int copr1, int copr2) {
+    if (gcd(copr1, copr2) == 1)
     {
-        prime1 = x2;
-        prime2 = x1;
-    }
-    else
+        return true;
+    }else
     {
-        prime1 = x1;
-        prime2 = x2;
+        return false;
     }
 }
 
