@@ -7,6 +7,7 @@ Authors: Silas Hausdörfer, Jonathan Dechow
 #include <windows.h>
 #include <string.h>
 #include "encryption.h"
+#include "conversion.h"
 // #include "primegen.h"    // remove comment if needed
 
 
