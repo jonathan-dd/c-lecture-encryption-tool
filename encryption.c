@@ -4,7 +4,7 @@
 #include "primegen.h"
 
 
-int encrRSA(int encryptfile) //encryptfile = number from converting binary in a int and back
+int encrRSA(int binint) //binint = number from converting binary in a int and back
 {   
     int x1 = generate_random_prime;
     int x2 = generate_random_prime;
@@ -28,8 +28,8 @@ int encrRSA(int encryptfile) //encryptfile = number from converting binary in a 
         */                             
     }
 
+    int encryptint = (pow(binint,cplen)) ;
 
-    
 
     printf("The file was just encrypted with the private Encryption Key: %d\n",&cplen);
 
