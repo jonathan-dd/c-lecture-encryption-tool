@@ -3,7 +3,9 @@
       "c": "gcc $fileName -o cryptor.exe && copy cryptor.exe %USERPROFILE%\\bin"
     },
     "files.associations": {
-      "stdio.h": "c",
-      "string.h": "c"
+        "*.css": "tailwindcss",
+        "stdio.h": "c",
+        "string.h": "c",
+        "encryption.h": "c"
     }
   }
