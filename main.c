@@ -23,6 +23,7 @@ char* getAbsolutePath(const char* relativPath);
 void printHelp();
 char* editFilePath(char* filePath, char encryptOrDecrypt);
 
+
 int main(int argc, char *argv[]){
 
     // We check for admin rights to make sure not anyone can just encrypt files on your system
@@ -97,18 +98,20 @@ void encrypt(char* filePath, char* encryptionType){
     printf("Encryption process started");
     
     
-        if(*encryptionType == "RSA")
+        if(strcmp(encryptionType, "RSA") == 0)
         {
-            encrRSA(*filePath);
+            printf("...RSA Algorithm initiated...\n");
+            encrRSA(fileData);
         }
-        else if (*encryptionType == "Caeser")
+        else if (strcmp(encryptionType, "Caeser") == 0)
         {
-            encrCaeser(*filePath);
+            printf("...Caeser Algorithm initiated...\n");
+            encrCaeser(fileData);
         }
         else
         {
             printf("A Algorithm with this name is not availible");
-            return -1;
+            exit;
         }
 
     

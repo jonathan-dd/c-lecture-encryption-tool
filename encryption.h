@@ -1,7 +1,7 @@
 #ifndef ENCRYPTION_H
 #define ENCRYPTION_H
 
-int encrRSA(char );
-void encrCaeser(char* binaryString);
+void encrRSA(unsigned char* binaryString);
+void encrCaeser(unsigned char* binaryString);
 
 #endif

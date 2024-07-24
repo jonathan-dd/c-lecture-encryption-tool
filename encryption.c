@@ -6,8 +6,10 @@
 #include "RSAencryption.h"
 #include "conversion.h"
 
+void encrRSA(unsigned char* binaryString);
+void encrCaeser(unsigned char* binaryString);
 
-void encrRSA(const char* binaryString) 
+void encrRSA(unsigned char* binaryString) 
 {   
     unsigned long long int n, e, d;
     generateRSAKeys(&n, &e, &d);
@@ -21,7 +23,7 @@ void encrRSA(const char* binaryString)
     printf("Public Key: (n = %llu, d = %llu)\n", n, d);
 }
 
-void encrCaeser(char* binaryString)
+void encrCaeser(unsigned char* binaryString)
 {
     int length = strlen(binaryString);
     
