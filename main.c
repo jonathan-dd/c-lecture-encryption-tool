@@ -96,15 +96,14 @@ void encrypt(char* filePath, char* encryptionType){
     unsigned char* fileData = readFileAsBinary(filePath, &fileSize);
     printf("Encryption process started");
     
-    switch(*encryptionType)
-    {
+    
         if(*encryptionType == "RSA")
         {
-            encrRSA(filePath);
+            encrRSA(*filePath);
         }
         else if (*encryptionType == "Caeser")
         {
-            encrCaeser(filePath);
+            encrCaeser(*filePath);
         }
         else
         {
@@ -112,7 +111,7 @@ void encrypt(char* filePath, char* encryptionType){
             return -1;
         }
 
-    }
+    
 
     writeFileFromBinary(fileData, &fileSize, filePath, 'e');
     free(fileData);
