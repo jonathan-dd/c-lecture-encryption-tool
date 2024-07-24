@@ -96,7 +96,23 @@ void encrypt(char* filePath, char* encryptionType){
     unsigned char* fileData = readFileAsBinary(filePath, &fileSize);
     printf("Encryption process started");
     
-    //Encryption code here
+    switch(*encryptionType)
+    {
+        if(*encryptionType == "RSA")
+        {
+            encrRSA(filePath);
+        }
+        else if (*encryptionType == "Caeser")
+        {
+            encrCaeser(filePath);
+        }
+        else
+        {
+            printf("A Algorithm with this name is not availible");
+            return -1;
+        }
+
+    }
 
     writeFileFromBinary(fileData, &fileSize, filePath, 'e');
     free(fileData);
@@ -270,5 +286,6 @@ void printHelp(){
     printf("  decrypt <filepath> <algorithm>\n");
     printf("\n");
     printf("Algorithms:\n");
-    printf("  xor\n");
+    printf("  RSA\n");
+    printf("  Caeser\n");
 }

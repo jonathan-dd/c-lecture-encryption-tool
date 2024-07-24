@@ -1,49 +1,24 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
-#include "primegen.h"
+#include "RSAencryption.h"
+#include "conversion.h"
 
 
-int encrRSA(int binint) //binint = number from converting binary in a int and back
+void encrRSA(const char* binaryString) 
 {   
+    unsigned long long int n, e, d;
+    generateRSAKeys(&n, &e, &d);
 
-    int x1 = generate_random_prime;
-    int x2 = generate_random_prime;
+    unsigned long long int message = binaryStringToInt(binaryString);
+    unsigned long long int RSAcypher = rsaEncrypt(message,e,n);
+    binaryString = intToBinaryString(RSAcypher);
 
-    int encrmod = x1 + x2;      //modulus of both prime numbers
-    int len = (x1-1) * (x2-1);  //lenght of all numbers between 1 and modulus with common factors removed
-    int cplen = len;
-    int cpmod = encrmod - 1;
-    bool notcprime;
-    bool cprime1, cprime2;
-    int rangeup,rangelow;
-    
-    while(cprime1 == false || cprime2 == false)
-    {
-        cplen--;                                
-        cprime1 = are_coprime(cplen,len);
-        cprime2 = are_coprime(cplen,encrmod);
-        /*if (cplen < 2)
-        {
-            !!Implement code here to generate two new prime numbers /start again
-        }
-        */                             
-    }
-
-    int encryptint = (pow(binint,cplen)) ;
-
-    printf("The file was just encrypted with the private Encryption Key: %d\n",&cplen);
-    
-    printf("The Public encryption keys are (they are common factors of the private key ):"); //give out public keys in certain range following the rule: decryptor = common factor of cplen
-    for (int v = 2 ; v<= 100; v++)
-    {
-        if(cplen % v == 0 )
-        {
-            printf(" %d,",v);
-        } 
-    }
-    printf("\n");
-    printf("The encryption and decryption Modulus is %d", encrmod);
+    printf("----File encryption completed-----\n");
+    printf("Private Key: (n = %llu, e = %llu)\n", n, e);
+    printf("Public Key: (n = %llu, d = %llu)\n", n, d);
 }
 
 void encrCaeser(char* binaryString)
@@ -57,4 +32,5 @@ void encrCaeser(char* binaryString)
             binaryString[i] = '0';
         }
     }
+    printf("----File encryption completed-----\n");
 }

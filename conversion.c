@@ -5,8 +5,8 @@
 
 // Funktion zur Konvertierung einer Binärzeichenfolge in eine Ganzzahl
 int binaryStringToInt(const char *binaryString) {
-    int length = strlen(binaryString);
-    int number = 0;
+    unsigned long long int length = strlen(binaryString);
+    unsigned long long int number = 0;
     for (int i = 0; i < length; i++) {
         if (binaryString[i] == '1') {
             number += pow(2, length - 1 - i);
