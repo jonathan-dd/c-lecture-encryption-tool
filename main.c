@@ -7,6 +7,7 @@ Authors: Silas Hausdörfer, Jonathan Dechow
 #include <windows.h>
 #include <string.h>
 #include "encryption.h"
+#include "decryption.h"
 #include "conversion.h"
 // #include "primegen.h"    // remove comment if needed
 
@@ -131,16 +132,30 @@ void encrypt(char* filePath, char* encryptionType){
 void decrypt(char* filePath, char* encryptionType){
     size_t fileSize;
     unsigned char* fileData = readFileAsBinary(filePath, &fileSize);
-    printf("Decryption process started");
+    printf("Decryption process started\n");
 
-    //Decryption code here
+    if(strcmp(encryptionType, "RSA") == 0)
+        {
+            printf("...RSA Algorithm initiated...\n");
+            decrRSA(fileData);
+        }
+        else if (strcmp(encryptionType, "Caeser") == 0)
+        {
+            printf("...Caeser Algorithm initiated...\n");
+            decrCeaser(fileData);
+        }
+        else
+        {
+            printf("A Algorithm with this name is not availible\n");
+            exit;
+        }
 
     writeFileFromBinary(fileData, &fileSize, filePath, 'd');
     free(fileData);
 
     // Delete encrypted file
     if (remove(filePath) == 0){
-        printf("Encrypted file removed");
+        printf("Encrypted file removed\n");
     }else{
         printf("Encrypted file could not be deleted. Pleas delete the encrypted file manualy\n");
     }
@@ -152,7 +167,7 @@ unsigned char* readFileAsBinary(const char* filePath, size_t *fileSize){
     // Open file as binary
     FILE* file = fopen(filePath, "rb");
     if (file == NULL) {
-        perror("Failed to open file");
+        perror("Failed to open file\n");
         exit(EXIT_FAILURE);
     }
 

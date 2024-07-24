@@ -1,6 +1,7 @@
 #ifndef DECRYPTION_H
 #define DECRYPTION_H
 
-void decrCeaser(char* binaryString);
+void decrCeaser(unsigned char* binaryString);
+void decrRSA(unsigned char* binaryString);
 
 #endif
